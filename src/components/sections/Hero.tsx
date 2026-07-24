@@ -19,13 +19,14 @@ export default function Hero() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="relative z-20 max-w-xl"
+          className="relative z-20 max-w-xl text-readable-soft translate-x-4 sm:translate-x-8 lg:translate-x-44 xl:translate-x-56"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.28em] text-muted">Hi, I am</p>
-          <h1 className="font-display whitespace-nowrap text-5xl font-bold leading-none text-white md:text-7xl xl:text-8xl">
-            {site.name}
+          <h1 className="font-display text-readable text-5xl font-bold leading-none text-white md:text-7xl xl:text-8xl">
+            <span className="block">Wang</span>
+            <span className="block translate-x-6 md:translate-x-10 xl:translate-x-12">Yudan</span>
           </h1>
-          <p className="mt-5 max-w-md text-lg text-white/70 md:text-xl">{site.role}</p>
+          <p className="mt-8 max-w-md text-lg text-white/70 md:mt-10 md:text-xl">{site.role}</p>
+          <p className="mt-2 max-w-md text-sm text-muted md:text-base">{site.tagline}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <motion.a
               href="#projects"
@@ -34,14 +35,6 @@ export default function Hero() {
               className="rounded-full border border-white/20 bg-void/80 px-6 py-2.5 text-sm font-medium text-white backdrop-blur-sm transition hover:border-accent/50 hover:shadow-glow"
             >
               Resume
-            </motion.a>
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="rounded-full border border-accent/50 bg-accent/20 px-6 py-2.5 text-sm font-medium text-accent backdrop-blur-sm transition hover:bg-accent/30 hover:shadow-glow"
-            >
-              Hire Me
             </motion.a>
           </div>
         </motion.div>

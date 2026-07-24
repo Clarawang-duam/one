@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion'
-import { navLinks, site } from '../data/content'
+import { navLinks } from '../data/content'
 
 export default function Nav() {
   return (
     <motion.header
+      id="site-nav"
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -14,7 +15,7 @@ export default function Nav() {
           href="#top"
           className="font-display text-sm font-semibold tracking-wide text-mist transition hover:text-accent md:text-base"
         >
-          {site.name}
+          TOP
         </a>
         <nav className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => (

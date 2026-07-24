@@ -182,18 +182,27 @@ function CylinderScene({ wantedRef }: { wantedRef: MutableRefObject<boolean> }) 
   )
 }
 
-/** True while the viewport focus sits inside #projects */
-function isProjectsActive() {
-  const el = document.getElementById('projects')
-  if (!el) return false
-  const rect = el.getBoundingClientRect()
-  const anchor = window.innerHeight * 0.4
-  return rect.top < anchor && rect.bottom > anchor
+/**
+ * Cylinders enter while Project 1 is in view;
+ * exit once「通用收银缺少座位 / 开台可视化」crosses above the navbar.
+ */
+function isCylindersWanted() {
+  const project = document.getElementById('project-1')
+  const marker = document.getElementById('project-1-cylinder-exit')
+  if (!project) return false
+  const projectRect = project.getBoundingClientRect()
+  if (projectRect.top >= window.innerHeight) return false
+
+  const nav = document.getElementById('site-nav')
+  const navBottom = nav?.getBoundingClientRect().bottom ?? 56
+  const markerRect = (marker ?? project).getBoundingClientRect()
+  if (markerRect.bottom <= navBottom) return false
+  return true
 }
 
 /**
  * Corner beads under text/cards.
- * Slide in when scrolling down into Projects; slide out when leaving Projects upward (or past it).
+ * Slide in with Project 1; slide out when the target pain text clears above the navbar.
  */
 export default function FloatingCylinders() {
   const wantedRef = useRef(false)
@@ -201,7 +210,7 @@ export default function FloatingCylinders() {
 
   useEffect(() => {
     const update = () => {
-      const w = isProjectsActive()
+      const w = isCylindersWanted()
       wantedRef.current = w
       if (w) setReady(true)
     }

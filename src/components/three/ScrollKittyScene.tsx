@@ -1,12 +1,13 @@
 import { Center, useGLTF, useProgress } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Suspense, useEffect, useLayoutEffect, useRef, type MutableRefObject } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, type MutableRefObject } from 'react'
 import {
   Box3,
   Mesh,
   Raycaster,
   Vector3,
   type Group,
+  type Material,
   type Object3D,
 } from 'three'
 import { models } from '../../data/content'
@@ -32,9 +33,20 @@ function collectMeshes(root: Object3D) {
   return meshes
 }
 
-function smoothstep(t: number) {
-  const x = Math.min(1, Math.max(0, t))
-  return x * x * (3 - 2 * x)
+function restoreOpaqueMaterials(root: Object3D) {
+  root.traverse((obj) => {
+    if (!(obj instanceof Mesh)) return
+    const fix = (mat: Material) => {
+      const next = mat.clone()
+      if ('opacity' in next) next.opacity = 1
+      if ('transparent' in next) next.transparent = false
+      if ('depthWrite' in next) next.depthWrite = true
+      next.needsUpdate = true
+      return next
+    }
+    if (Array.isArray(obj.material)) obj.material = obj.material.map(fix)
+    else if (obj.material) obj.material = fix(obj.material)
+  })
 }
 
 function softClamp(v: number, min: number, max: number) {
@@ -43,15 +55,28 @@ function softClamp(v: number, min: number, max: number) {
   return c + h * Math.tanh((v - c) / h)
 }
 
+function smoothstep(t: number) {
+  const x = Math.min(1, Math.max(0, t))
+  return x * x * (3 - 2 * x)
+}
+
 function Kitty({ rootRef }: { rootRef: MutableRefObject<Group | null> }) {
   const { scene } = useGLTF(models.hellokitty)
+  const clone = useMemo(() => {
+    // Previous opacity pass mutated the cached GLTF — clone + restore opaque materials
+    restoreOpaqueMaterials(scene)
+    const next = scene.clone(true)
+    restoreOpaqueMaterials(next)
+    return next
+  }, [scene])
+
   return (
     <group ref={rootRef}>
       <group rotation={[BOARD_TILT_X, 0, 0]}>
         <group rotation={[0, KITTY_YAW, 0]}>
           <Center>
             <group rotation={[-Math.PI / 2, 0, 0]} scale={3.3}>
-              <primitive object={scene} />
+              <primitive object={clone} />
             </group>
           </Center>
         </group>

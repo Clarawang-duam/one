@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <!-- soft glow -->
+  <circle cx="32" cy="26" r="18" fill="#F5C542" fill-opacity="0.18"/>
+  <circle cx="32" cy="26" r="12" fill="#F5C542" fill-opacity="0.28"/>
+  <!-- bulb glass -->
+  <path
+    d="M32 8c-9.4 0-17 7.2-17 16.1 0 5.6 2.8 10.5 7.1 13.5.9.6 1.5 1.6 1.5 2.7V43c0 1.1.9 2 2 2h12.8c1.1 0 2-.9 2-2v-2.7c0-1.1.6-2.1 1.5-2.7 4.3-3 7.1-7.9 7.1-13.5C49 15.2 41.4 8 32 8z"
+    fill="#F7D774"
+    stroke="#F0B429"
+    stroke-width="1.5"
+  />
+  <!-- filament -->
+  <path d="M26 24c2.2 3.2 4.2 4.8 6 4.8s3.8-1.6 6-4.8" stroke="#E8890C" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M32 28.8V34" stroke="#E8890C" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- base -->
+  <rect x="24.5" y="45" width="15" height="3.2" rx="1" fill="#C9CDD4"/>
+  <rect x="25.5" y="49" width="13" height="3.2" rx="1" fill="#A8AEB8"/>
+  <rect x="27" y="53" width="10" height="3.5" rx="1.2" fill="#8B929C"/>
+  <!-- shine -->
+  <path d="M24 18c2.5-3.5 6-5.5 10-6" stroke="#fff" stroke-opacity="0.55" stroke-width="2" stroke-linecap="round"/>
+</svg>

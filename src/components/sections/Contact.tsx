@@ -18,7 +18,7 @@ export default function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 0.55 }}
-        className="font-display text-center text-4xl font-bold leading-tight text-mist md:text-7xl"
+        className="font-display text-readable mx-auto block text-center text-4xl font-bold leading-tight text-mist md:text-7xl"
       >
         LET&apos;S WORK
         <br />
@@ -28,13 +28,27 @@ export default function Contact() {
       <div className="mx-auto mt-14 grid max-w-5xl gap-10 lg:grid-cols-2">
         <div>
           <h3 className="font-display text-xl font-semibold text-mist">Contact Form</h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
-            Please contact me directly at{' '}
-            <a href={`mailto:${site.email}`} className="text-accent underline-offset-2 hover:underline">
-              {site.email}
-            </a>{' '}
-            or drop your info here.
-          </p>
+          <ul className="mt-6 space-y-2 text-sm text-muted">
+            <li>
+              <span className="text-mist/70">Email</span>
+              <br />
+              <a href={`mailto:${site.email}`} className="text-accent hover:underline">
+                {site.email}
+              </a>
+            </li>
+            <li>
+              <span className="text-mist/70">Phone</span>
+              <br />
+              <a href={`tel:${site.phone}`} className="text-accent hover:underline">
+                {site.phone}
+              </a>
+            </li>
+            <li>
+              <span className="text-mist/70">WeChat</span>
+              <br />
+              <span className="text-mist">{site.wechat}</span>
+            </li>
+          </ul>
         </div>
 
         <motion.form
@@ -42,7 +56,7 @@ export default function Contact() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-card backdrop-blur-sm"
+          className="space-y-4 rounded-2xl border border-white/15 bg-white/[0.12] p-6 shadow-card backdrop-blur-md"
         >
           <label className="block text-sm text-muted">
             Full name
