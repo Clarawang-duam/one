@@ -16,7 +16,6 @@ export default function Experience() {
       >
         Experience
       </motion.h2>
-      <p className="text-readable-soft mt-3 text-center text-muted">工作经历与教育背景</p>
 
       <div className="mt-14 w-full space-y-6">
         {experiences.map((job, index) => (
