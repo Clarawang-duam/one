@@ -21,8 +21,9 @@ export const site = {
 
 export const navLinks = [
   { href: '#tech', label: 'Tech Stack' },
-  { href: '#experience', label: 'Experience' },
+  { href: '#education', label: 'Education' },
   { href: '#projects', label: 'Projects' },
+  { href: '#work', label: 'Work Experience' },
   { href: '#contact', label: "Let's Work Together" },
 ]
 
@@ -49,7 +50,7 @@ export const techStack: TechItem[] = [
   { name: 'SQL', image: '/icons/mysql.png' },
 ]
 
-export const experiences = [
+export const workExperiences = [
   {
     title: '项目实施工程师',
     company: '上海泛微网络有限公司（北京）',
@@ -60,6 +61,9 @@ export const experiences = [
     ],
     tags: ['B 端实施', '流程设计', '跨部门协同', 'POMS', '央企'],
   },
+]
+
+export const education = [
   {
     title: '经济学 本科',
     company: '辽宁大学（双一流 / 211）',
@@ -67,6 +71,7 @@ export const experiences = [
     bullets: [
       '社会实践：剑桥大学暑期学术交流（2022.06 – 2022.07）。',
       '核心奖项：剑桥大学金融创新国际赛三等奖、美国数学建模大赛 H 奖、全国大学生统计建模大赛省一等奖。',
+      '荣誉：优秀学生干部、连续 3 年二等奖学金、优秀志愿者。',
       '领导力：辽宁大学辩论队队长（2022.03 – 2025.03）、学生会新媒体部长。',
     ],
     tags: ['经济学', '211', '数据分析', '领导力'],

@@ -17,13 +17,13 @@ export default function Nav() {
         >
           TOP
         </a>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-0.5 lg:gap-1 md:flex">
           {navLinks.map((link) => (
             <motion.a
               key={link.href}
               href={link.href}
               whileHover={{ y: -2 }}
-              className="rounded-md px-3 py-2 text-sm text-muted transition hover:bg-white/5 hover:text-mist"
+              className="rounded-md px-2 py-2 text-sm text-muted transition hover:bg-white/5 hover:text-mist lg:px-3"
             >
               {link.label}
             </motion.a>

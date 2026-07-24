@@ -1,10 +1,11 @@
 import Nav from './components/Nav'
 import Starfield from './components/Starfield'
 import Contact from './components/sections/Contact'
-import Experience from './components/sections/Experience'
+import Education from './components/sections/Education'
 import Hero from './components/sections/Hero'
 import Projects from './components/sections/Projects'
 import TechStack from './components/sections/TechStack'
+import WorkExperience from './components/sections/WorkExperience'
 import FloatingCylinders from './components/three/FloatingCylinders'
 import ScrollKittyScene from './components/three/ScrollKittyScene'
 
@@ -20,8 +21,9 @@ export default function App() {
         <main>
           <Hero />
           <TechStack />
-          <Experience />
+          <Education />
           <Projects />
+          <WorkExperience />
           <Contact />
         </main>
       </div>

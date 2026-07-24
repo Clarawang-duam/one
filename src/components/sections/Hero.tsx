@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import TrueFocusTagline from '../TrueFocusTagline'
 import { site } from '../../data/content'
 
 /** Matches fixed nav bar height (py-3 + content ≈ 3.5–4rem) */
@@ -25,8 +26,13 @@ export default function Hero() {
             <span className="block">Wang</span>
             <span className="block translate-x-6 md:translate-x-10 xl:translate-x-12">Yudan</span>
           </h1>
-          <p className="mt-8 max-w-md text-lg text-white/70 md:mt-10 md:text-xl">{site.role}</p>
-          <p className="mt-2 max-w-md text-sm text-muted md:text-base">{site.tagline}</p>
+          <p
+            className="mt-8 max-w-md text-lg md:mt-10 md:text-xl"
+            style={{ color: '#ffffff', textShadow: 'none' }}
+          >
+            {site.role}
+          </p>
+          <TrueFocusTagline className="mt-6 max-w-md text-sm md:mt-8 md:text-base" />
           <div className="mt-8 flex flex-wrap gap-3">
             <motion.a
               href="#projects"

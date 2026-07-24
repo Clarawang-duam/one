@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
-import { experiences } from '../../data/content'
+import { workExperiences } from '../../data/content'
 
-export default function Experience() {
+export default function WorkExperience() {
   return (
     <section
-      id="experience"
+      id="work"
       className="relative mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center justify-center px-4 py-24 md:px-8"
     >
       <motion.h2
@@ -12,15 +12,16 @@ export default function Experience() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.55 }}
-        className="font-display text-readable text-center text-4xl font-bold text-mist md:text-7xl"
+        className="font-display text-readable text-center text-4xl font-bold text-mist md:text-6xl lg:text-7xl"
       >
-        Experience
+        Work Experience
       </motion.h2>
 
       <div className="mt-14 w-full space-y-6">
-        {experiences.map((job, index) => (
+        {workExperiences.map((job, index) => (
           <motion.article
             key={job.title + job.company}
+            id={index === 0 ? 'work-card' : undefined}
             initial={{ opacity: 0, x: index % 2 === 0 ? -28 : 28 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}

@@ -1,16 +1,49 @@
 import { motion } from 'framer-motion'
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
 import { site } from '../../data/content'
+import RotatingText from '../RotatingText'
 
-export default function Contact() {
-  const [sent, setSent] = useState(false)
+const ROTATING_FOCUS = [
+  'B端 SaaS 设计',
+  'Agent 流程重构',
+  '全栈原型交付',
+  '企业降本增效',
+]
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setSent(true)
-    window.setTimeout(() => setSent(false), 3200)
+function CopyButton({ value, label }: { value: string; label: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value)
+    } catch {
+      const ta = document.createElement('textarea')
+      ta.value = value
+      ta.setAttribute('readonly', '')
+      ta.style.position = 'fixed'
+      ta.style.left = '-9999px'
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
+    }
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1800)
   }
 
+  return (
+    <button
+      type="button"
+      onClick={onCopy}
+      aria-label={`复制${label}`}
+      className="ml-1.5 inline-flex shrink-0 items-center rounded-md border border-white/15 bg-white/5 px-2 py-0.5 text-[11px] font-medium text-mist/80 transition hover:border-accent/50 hover:text-accent"
+    >
+      {copied ? '已复制' : '复制'}
+    </button>
+  )
+}
+
+export default function Contact() {
   return (
     <section id="contact" className="relative mx-auto min-h-screen w-full max-w-7xl px-4 py-24 md:px-8">
       <motion.h2
@@ -25,79 +58,63 @@ export default function Contact() {
         TOGETHER
       </motion.h2>
 
-      <div className="mx-auto mt-14 grid max-w-5xl gap-10 lg:grid-cols-2">
-        <div>
-          <h3 className="font-display text-xl font-semibold text-mist">Contact Form</h3>
-          <ul className="mt-6 space-y-2 text-sm text-muted">
-            <li>
-              <span className="text-mist/70">Email</span>
-              <br />
-              <a href={`mailto:${site.email}`} className="text-accent hover:underline">
-                {site.email}
-              </a>
-            </li>
-            <li>
-              <span className="text-mist/70">Phone</span>
-              <br />
-              <a href={`tel:${site.phone}`} className="text-accent hover:underline">
-                {site.phone}
-              </a>
-            </li>
-            <li>
-              <span className="text-mist/70">WeChat</span>
-              <br />
-              <span className="text-mist">{site.wechat}</span>
-            </li>
-          </ul>
-        </div>
+      <motion.p
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.08 }}
+        className="mx-auto mt-14 flex max-w-4xl flex-wrap items-center justify-center gap-x-2 gap-y-3 text-center text-lg leading-relaxed text-white md:mt-16 md:text-2xl"
+        style={{ textShadow: 'none' }}
+      >
+        <span>我是一名专注</span>
+        <RotatingText
+          texts={ROTATING_FOCUS}
+          mainClassName="overflow-hidden rounded-lg px-3 py-1 text-white"
+          style={{ backgroundColor: '#1e40af' }}
+          staggerFrom="last"
+          initial={{ y: '100%' }}
+          animate={{ y: 0 }}
+          exit={{ y: '-120%' }}
+          staggerDuration={0.025}
+          splitLevelClassName="overflow-hidden pb-0.5"
+          transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+          rotationInterval={2200}
+        />
+        <span>的 AI 产品经理</span>
+      </motion.p>
 
-        <motion.form
-          onSubmit={onSubmit}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-4 rounded-2xl border border-white/15 bg-white/[0.12] p-6 shadow-card backdrop-blur-md"
-        >
-          <label className="block text-sm text-muted">
-            Full name
-            <input
-              required
-              name="name"
-              placeholder="Your Name"
-              className="mt-1.5 w-full rounded-lg border border-white/10 bg-void/60 px-3 py-2.5 text-mist outline-none transition focus:border-accent/60"
-            />
-          </label>
-          <label className="block text-sm text-muted">
-            Email Address
-            <input
-              required
-              type="email"
-              name="email"
-              placeholder="you@example.com"
-              className="mt-1.5 w-full rounded-lg border border-white/10 bg-void/60 px-3 py-2.5 text-mist outline-none transition focus:border-accent/60"
-            />
-          </label>
-          <label className="block text-sm text-muted">
-            Your Message
-            <textarea
-              required
-              name="message"
-              rows={4}
-              placeholder="Tell me about your project…"
-              className="mt-1.5 w-full resize-y rounded-lg border border-white/10 bg-void/60 px-3 py-2.5 text-mist outline-none transition focus:border-accent/60"
-            />
-          </label>
-          <p className="text-xs text-muted">I&apos;ll never share your data with anyone else. Pinky promise!</p>
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.03, y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full rounded-full border border-accent/50 bg-accent/15 px-5 py-2.5 text-sm font-semibold text-accent transition hover:bg-accent/25 hover:shadow-glow"
-          >
-            {sent ? 'Message queued ✓' : 'Send Message'}
-          </motion.button>
-        </motion.form>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.45, delay: 0.12 }}
+        className="mx-auto mt-12 flex max-w-4xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted md:mt-14 md:text-base"
+      >
+        <span className="inline-flex flex-wrap items-center">
+          <span className="text-mist/60">Email</span>
+          <a href={`mailto:${site.email}`} className="ml-2 text-accent hover:underline">
+            {site.email}
+          </a>
+          <CopyButton value={site.email} label="邮箱" />
+        </span>
+        <span className="hidden text-white/20 sm:inline" aria-hidden>
+          ·
+        </span>
+        <span className="inline-flex flex-wrap items-center">
+          <span className="text-mist/60">Phone</span>
+          <a href={`tel:${site.phone}`} className="ml-2 text-accent hover:underline">
+            {site.phone}
+          </a>
+        </span>
+        <span className="hidden text-white/20 sm:inline" aria-hidden>
+          ·
+        </span>
+        <span className="inline-flex flex-wrap items-center">
+          <span className="text-mist/60">WeChat</span>
+          <span className="ml-2 text-mist">{site.wechat}</span>
+          <CopyButton value={site.wechat} label="微信" />
+        </span>
+      </motion.div>
 
       <footer className="mt-24 border-t border-white/5 pt-8 text-center text-xs text-muted">
         © {new Date().getFullYear()} {site.name}. All rights reserved.

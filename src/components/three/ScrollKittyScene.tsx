@@ -4,6 +4,8 @@ import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, type MutableRefO
 import {
   Box3,
   Mesh,
+  Plane,
+  Ray,
   Raycaster,
   Vector3,
   type Group,
@@ -13,6 +15,9 @@ import {
 import { models } from '../../data/content'
 import {
   getKittyScrollTransform,
+  getKittyWorkDock,
+  lerp,
+  type KittyDock,
   type KittyTransform,
 } from '../../data/kittyScrollStates'
 
@@ -24,6 +29,12 @@ const KITTY_YAW = (-35 * Math.PI) / 180 + Math.PI - Math.PI / 3
 const DOWN = new Vector3(0, -1, 0)
 const _origin = new Vector3()
 const _size = new Vector3()
+const _dockPlane = new Plane()
+const _dockRay = new Ray()
+const _dockNormal = new Vector3()
+const _dockPoint = new Vector3()
+const _dockHit = new Vector3()
+const _sceneCenter = new Vector3(0, 0, 0)
 
 function collectMeshes(root: Object3D) {
   const meshes: Mesh[] = []
@@ -289,10 +300,12 @@ function ScrollRig({
     iron: 1,
   })
   const target = useRef<KittyTransform>({ ...current.current })
+  const dock = useRef<KittyDock | null>(null)
 
   useEffect(() => {
     const update = () => {
       target.current = getKittyScrollTransform()
+      dock.current = getKittyWorkDock()
     }
     update()
     window.addEventListener('scroll', update, { passive: true })
@@ -303,14 +316,36 @@ function ScrollRig({
     }
   }, [])
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!wrap.current) return
-    const t = Math.min(1, delta * 3.2)
     const c = current.current
     const g = target.current
-    c.position[0] += (g.position[0] - c.position[0]) * t
-    c.position[1] += (g.position[1] - c.position[1]) * t
-    c.position[2] += (g.position[2] - c.position[2]) * t
+    const d = dock.current
+
+    let goalX = g.position[0]
+    let goalY = g.position[1]
+    let goalZ = g.position[2]
+
+    if (d) {
+      const { camera } = state
+      camera.getWorldDirection(_dockNormal)
+      _dockPlane.setFromNormalAndCoplanarPoint(_dockNormal, _sceneCenter)
+      _dockPoint.set(d.ndcX, d.ndcY, 0.5).unproject(camera)
+      _dockRay.origin.copy(camera.position)
+      _dockRay.direction.copy(_dockPoint.sub(camera.position)).normalize()
+      if (_dockRay.intersectPlane(_dockPlane, _dockHit)) {
+        goalX = lerp(goalX, _dockHit.x, d.weight)
+        goalY = lerp(goalY, _dockHit.y, d.weight)
+        goalZ = lerp(goalZ, _dockHit.z, d.weight)
+      }
+    }
+
+    // Track the card tightly once docked so Kitty rides it instead of lagging behind
+    const followRate = d ? lerp(3.2, 11, d.weight) : 3.2
+    const t = Math.min(1, delta * followRate)
+    c.position[0] += (goalX - c.position[0]) * t
+    c.position[1] += (goalY - c.position[1]) * t
+    c.position[2] += (goalZ - c.position[2]) * t
     c.rotation[0] += (g.rotation[0] - c.rotation[0]) * t
     c.rotation[1] += (g.rotation[1] - c.rotation[1]) * t
     c.rotation[2] += (g.rotation[2] - c.rotation[2]) * t

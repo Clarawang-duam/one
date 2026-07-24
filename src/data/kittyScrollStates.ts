@@ -1,4 +1,4 @@
-export type KittySection = 'hero' | 'skills' | 'experience' | 'projects' | 'contact'
+export type KittySection = 'hero' | 'skills' | 'education' | 'projects' | 'work' | 'contact'
 
 export type KittyTransform = {
   position: [number, number, number]
@@ -22,16 +22,22 @@ export const KITTY_STATES: Record<KittySection, KittyTransform> = {
     scale: 0.9,
     iron: 0,
   },
-  experience: {
-    position: [0, -0.25, 0],
-    rotation: [Math.PI / 12, -Math.PI / 4, 0],
-    scale: 0.78,
+  education: {
+    position: [0, -0.18, 0],
+    rotation: [Math.PI / 16, -Math.PI / 6, 0],
+    scale: 0.82,
     iron: 0,
   },
   projects: {
     position: [0, 0.15, 0],
     rotation: [Math.PI * 0.92, Math.PI / 3, Math.PI * 0.08],
     scale: 0.72,
+    iron: 0,
+  },
+  work: {
+    position: [0, -0.25, 0],
+    rotation: [Math.PI / 12, -Math.PI / 4, 0],
+    scale: 0.78,
     iron: 0,
   },
   contact: {
@@ -45,13 +51,53 @@ export const KITTY_STATES: Record<KittySection, KittyTransform> = {
 export const KITTY_SECTION_ORDER: { id: string; key: KittySection }[] = [
   { id: 'top', key: 'hero' },
   { id: 'tech', key: 'skills' },
-  { id: 'experience', key: 'experience' },
+  { id: 'education', key: 'education' },
   { id: 'projects', key: 'projects' },
+  { id: 'work', key: 'work' },
   { id: 'contact', key: 'contact' },
 ]
 
 export function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t
+}
+
+export type KittyDock = {
+  /** 0 = section keyframes only, 1 = fully pinned to the Work card */
+  weight: number
+  /** Anchor in normalized device coords, y up */
+  ndcX: number
+  ndcY: number
+}
+
+const WORK_CARD_ID = 'work-card'
+
+/**
+ * Kitty perches on the Work card's top-right edge and rides it out of view,
+ * so it never drifts past the card in either scroll direction.
+ */
+export function getKittyWorkDock(): KittyDock | null {
+  const card = document.getElementById(WORK_CARD_ID)
+  if (!card) return null
+
+  const rect = card.getBoundingClientRect()
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+
+  const engageStart = vh * 0.98
+  const engageEnd = vh * 0.42
+  const raw = (engageStart - rect.top) / Math.max(1, engageStart - engageEnd)
+  const clamped = Math.min(1, Math.max(0, raw))
+  const weight = clamped * clamped * (3 - 2 * clamped)
+  if (weight <= 0) return null
+
+  const anchorX = rect.right - rect.width * 0.14
+  const anchorY = rect.top
+
+  return {
+    weight,
+    ndcX: (anchorX / vw) * 2 - 1,
+    ndcY: -(anchorY / vh) * 2 + 1,
+  }
 }
 
 export function lerpTransform(a: KittyTransform, b: KittyTransform, t: number): KittyTransform {
