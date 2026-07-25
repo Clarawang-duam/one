@@ -50,13 +50,27 @@ export const techStack: TechItem[] = [
   { name: 'SQL', image: '/icons/mysql.png' },
 ]
 
-export const workExperiences = [
+export type WorkExperienceItem = {
+  title: string
+  company: string
+  period: string
+  bullets: string[]
+  tags: string[]
+  /** Client/employer logos shown between title block and period */
+  logos?: Array<{ src: string; alt: string }>
+}
+
+export const workExperiences: WorkExperienceItem[] = [
   {
     title: '项目实施工程师',
     company: '上海泛微网络有限公司（北京）',
     period: '2025.07 – 2026.05',
+    logos: [
+      { src: '/icons/gt-group.png', alt: '通用技术集团' },
+      { src: '/icons/weaver-light.png', alt: '泛微' },
+    ],
     bullets: [
-      '主导央企复杂系统实施：负责英斯泰克（邮电器材集团）全链路项目运营管理平台（POMS）建设，主导多家主体的流程设计，覆盖付款、发票、合同、项目、用印等 10+ 核心模块。',
+      '主导央企复杂系统实施：负责英斯泰克（通用技术集团）全链路项目运营管理平台（POMS）建设，主导多家主体的流程设计，覆盖付款、发票、合同、项目、用印等 10+ 核心模块。',
       '复杂业务梳理与协同：深入 B 端业务场景，梳理多部门跨系统衔接规则，推动个性化需求产品化落地，系统上线后业务流转异常率下降 80%。',
     ],
     tags: ['B 端实施', '流程设计', '跨部门协同', 'POMS', '央企'],
@@ -65,8 +79,8 @@ export const workExperiences = [
 
 export const education = [
   {
-    title: '经济学 本科',
-    company: '辽宁大学（双一流 / 211）',
+    title: '辽宁大学（双一流 / 211）',
+    company: '经济学 本科',
     period: '2021.06 – 2025.06',
     bullets: [
       '社会实践：剑桥大学暑期学术交流（2022.06 – 2022.07）。',

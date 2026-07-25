@@ -29,11 +29,31 @@ export default function WorkExperience() {
             whileHover={{ y: -4 }}
             className="rounded-2xl border border-white/15 bg-white/[0.12] p-6 shadow-card backdrop-blur-md transition hover:border-accent/50 hover:shadow-glow md:p-8"
           >
-            <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-              <h3 className="font-display text-xl font-semibold text-mist md:text-2xl">{job.title}</h3>
-              <span className="text-sm text-accent">{job.period}</span>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-display text-xl font-semibold text-mist md:text-2xl">{job.title}</h3>
+                <p className="mt-1 text-muted">{job.company}</p>
+              </div>
+              {job.logos && job.logos.length > 0 ? (
+                <div className="flex shrink-0 items-center justify-center gap-2 self-center">
+                  {job.logos.map((logo) => (
+                    <div
+                      key={logo.src}
+                      className="inline-flex items-center rounded-lg bg-white px-2.5 py-1.5 shadow-sm"
+                    >
+                      <img
+                        src={logo.src}
+                        alt={logo.alt}
+                        className="h-7 w-auto object-contain md:h-8"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              <div className="flex flex-1 justify-start sm:justify-end">
+                <span className="text-sm text-accent">{job.period}</span>
+              </div>
             </div>
-            <p className="mt-1 text-muted">{job.company}</p>
             <ul className="mt-5 space-y-2 text-sm leading-relaxed text-mist/90 md:text-base">
               {job.bullets.map((bullet) => (
                 <li key={bullet} className="flex gap-2">
