@@ -88,31 +88,45 @@ export default function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.45, delay: 0.12 }}
-        className="mx-auto mt-12 flex max-w-4xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted md:mt-14 md:text-base"
+        className="mx-auto mt-12 flex w-full max-w-6xl flex-nowrap items-center justify-center gap-x-3 overflow-x-auto whitespace-nowrap px-1 text-xs text-muted [-ms-overflow-style:none] [scrollbar-width:none] md:mt-14 md:gap-x-4 md:text-sm [&::-webkit-scrollbar]:hidden"
       >
-        <span className="inline-flex flex-wrap items-center">
+        <span className="inline-flex shrink-0 items-center">
           <span className="text-mist/60">Email</span>
           <a href={`mailto:${site.email}`} className="ml-2 text-accent hover:underline">
             {site.email}
           </a>
           <CopyButton value={site.email} label="邮箱" />
         </span>
-        <span className="hidden text-white/20 sm:inline" aria-hidden>
+        <span className="shrink-0 text-white/20" aria-hidden>
           ·
         </span>
-        <span className="inline-flex flex-wrap items-center">
+        <span className="inline-flex shrink-0 items-center">
           <span className="text-mist/60">Phone</span>
           <a href={`tel:${site.phone}`} className="ml-2 text-accent hover:underline">
             {site.phone}
           </a>
         </span>
-        <span className="hidden text-white/20 sm:inline" aria-hidden>
+        <span className="shrink-0 text-white/20" aria-hidden>
           ·
         </span>
-        <span className="inline-flex flex-wrap items-center">
+        <span className="inline-flex shrink-0 items-center">
           <span className="text-mist/60">WeChat</span>
           <span className="ml-2 text-mist">{site.wechat}</span>
           <CopyButton value={site.wechat} label="微信" />
+        </span>
+        <span className="shrink-0 text-white/20" aria-hidden>
+          ·
+        </span>
+        <span className="inline-flex shrink-0 items-center">
+          <span className="text-mist/60">GitHub</span>
+          <a
+            href={`https://github.com/${site.github}`}
+            target="_blank"
+            rel="noreferrer"
+            className="ml-2 text-accent hover:underline"
+          >
+            {site.github}
+          </a>
         </span>
       </motion.div>
 

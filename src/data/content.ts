@@ -17,6 +17,7 @@ export const site = {
   email: 'H18641889977@163.com',
   phone: '17200486924',
   wechat: 'imduan5748',
+  github: 'Clarawang-duam',
 }
 
 export const navLinks = [
